@@ -622,11 +622,6 @@
     },
     {
       "type": "bongo.item",
-      "weight": 15,
-      "id": "minecraft:coal_ore"
-    },
-    {
-      "type": "bongo.item",
       "weight": 25,
       "id": "minecraft:cobbled_deepslate"
     },
@@ -1028,11 +1023,6 @@
     {
       "type": "bongo.item",
       "weight": 20,
-      "id": "minecraft:diamond_ore"
-    },
-    {
-      "type": "bongo.item",
-      "weight": 20,
       "id": "minecraft:diamond_pickaxe"
     },
     {
@@ -1104,11 +1094,6 @@
       "type": "bongo.item",
       "weight": 8,
       "id": "minecraft:emerald_block"
-    },
-    {
-      "type": "bongo.item",
-      "weight": 7,
-      "id": "minecraft:emerald_ore"
     },
     {
       "type": "bongo.item",
@@ -2572,11 +2557,6 @@
     },
     {
       "type": "bongo.item",
-      "weight": 12,
-      "id": "minecraft:redstone_ore"
-    },
-    {
-      "type": "bongo.item",
       "weight": 20,
       "id": "minecraft:redstone_torch"
     },
@@ -3558,7 +3538,7 @@
     {
       "type": "bongo.biome",
       "weight": 25,
-      "biome": "minecraft:mountains"
+      "biome": "minecraft:windswept_hills"
     },
     {
       "type": "bongo.biome",
@@ -3587,33 +3567,13 @@
     },
     {
       "type": "bongo.biome",
-      "weight": 15,
-      "biome": "minecraft:snowy_tundra"
-    },
-    {
-      "type": "bongo.biome",
-      "weight": 15,
-      "biome": "minecraft:snowy_mountains"
-    },
-    {
-      "type": "bongo.biome",
       "weight": 25,
       "biome": "minecraft:beach"
     },
     {
       "type": "bongo.biome",
       "weight": 25,
-      "biome": "minecraft:desert_hills"
-    },
-    {
-      "type": "bongo.biome",
-      "weight": 25,
-      "biome": "minecraft:wooded_hills"
-    },
-    {
-      "type": "bongo.biome",
-      "weight": 25,
-      "biome": "minecraft:taiga_hills"
+      "biome": "minecraft:windswept_forest"
     },
     {
       "type": "bongo.biome",
@@ -3623,32 +3583,17 @@
     {
       "type": "bongo.biome",
       "weight": 25,
-      "biome": "minecraft:jungle_hills"
-    },
-    {
-      "type": "bongo.biome",
-      "weight": 25,
-      "biome": "minecraft:jungle_edge"
-    },
-    {
-      "type": "bongo.biome",
-      "weight": 25,
       "biome": "minecraft:deep_ocean"
     },
     {
       "type": "bongo.biome",
       "weight": 25,
-      "biome": "minecraft:stone_shore"
+      "biome": "minecraft:stony_shore"
     },
     {
       "type": "bongo.biome",
       "weight": 23,
       "biome": "minecraft:birch_forest"
-    },
-    {
-      "type": "bongo.biome",
-      "weight": 24,
-      "biome": "minecraft:birch_forest_hills"
     },
     {
       "type": "bongo.biome",
@@ -3659,11 +3604,6 @@
       "type": "bongo.biome",
       "weight": 24,
       "biome": "minecraft:snowy_taiga"
-    },
-    {
-      "type": "bongo.biome",
-      "weight": 15,
-      "biome": "minecraft:wooded_mountains"
     },
     {
       "type": "bongo.biome",
@@ -3683,7 +3623,7 @@
     {
       "type": "bongo.biome",
       "weight": 17,
-      "biome": "minecraft:gravelly_mountains"
+      "biome": "minecraft:windswept_gravelly_hills"
     }
   ]
 }

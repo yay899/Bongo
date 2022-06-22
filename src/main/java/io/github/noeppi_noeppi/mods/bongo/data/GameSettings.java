@@ -6,13 +6,13 @@ import io.github.noeppi_noeppi.mods.bongo.teleporters.PlayerTeleporterDefault;
 import io.github.noeppi_noeppi.mods.bongo.teleporters.PlayerTeleporters;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -49,11 +49,12 @@ public class GameSettings {
     private final PlayerTeleporter teleporter;
     public final int maxTime;
     public final boolean lockout;
+    public final boolean leaderboard;
 
     public GameSettings(ResourceLocation id, CompoundTag nbt) {
         this.id = id;
         
-        if (nbt.contains("winCondition", Constants.NBT.TAG_STRING)) {
+        if (nbt.contains("winCondition", Tag.TAG_STRING)) {
             winCondition = WinCondition.getWinOrDefault(nbt.getString("winCondition"));
         } else {
             winCondition = WinCondition.DEFAULT;
@@ -102,16 +103,16 @@ public class GameSettings {
         }
 
         startingInventory = new ArrayList<>();
-        if (nbt.contains("startingInventory", Constants.NBT.TAG_LIST)) {
+        if (nbt.contains("startingInventory", Tag.TAG_LIST)) {
             Set<EquipmentSlot> usedTypes = new HashSet<>();
             int slotsUsedInMainInventory = 0;
-            ListTag list = nbt.getList("startingInventory", Constants.NBT.TAG_COMPOUND);
+            ListTag list = nbt.getList("startingInventory", Tag.TAG_COMPOUND);
             for (int i = 0; i < list.size(); i++) {
                 CompoundTag compound = list.getCompound(i);
                 if (!compound.contains("Count")) {
                     compound.putByte("Count", (byte) 1);
                 }
-                EquipmentSlot slotType = compound.contains("Slot", Constants.NBT.TAG_STRING) ? EquipmentSlot.byName(compound.getString("Slot")) : EquipmentSlot.MAINHAND;
+                EquipmentSlot slotType = compound.contains("Slot", Tag.TAG_STRING) ? EquipmentSlot.byName(compound.getString("Slot")) : EquipmentSlot.MAINHAND;
                 if (slotType == EquipmentSlot.MAINHAND) {
                     if (slotsUsedInMainInventory >= 36) {
                         throw new IllegalStateException("Too many starting items in main inventory. Not more than 36 are allowed.'");
@@ -130,8 +131,8 @@ public class GameSettings {
         }
         
         backpackInventory = new ArrayList<>();
-        if (nbt.contains("backpackInventory", Constants.NBT.TAG_LIST)) {
-            ListTag list = nbt.getList("backpackInventory", Constants.NBT.TAG_COMPOUND);
+        if (nbt.contains("backpackInventory", Tag.TAG_LIST)) {
+            ListTag list = nbt.getList("backpackInventory", Tag.TAG_COMPOUND);
             for (int i = 0; i < list.size(); i++) {
                 CompoundTag compound = list.getCompound(i);
                 if (!compound.contains("Count")) {
@@ -146,8 +147,8 @@ public class GameSettings {
         }
         
         emergencyItems = new ArrayList<>();
-        if (nbt.contains("emergencyItems", Constants.NBT.TAG_LIST)) {
-            ListTag list = nbt.getList("emergencyItems", Constants.NBT.TAG_COMPOUND);
+        if (nbt.contains("emergencyItems", Tag.TAG_LIST)) {
+            ListTag list = nbt.getList("emergencyItems", Tag.TAG_COMPOUND);
             for (int i = 0; i < list.size(); i++) {
                 CompoundTag compound = list.getCompound(i);
                 if (!compound.contains("Count")) {
@@ -182,6 +183,12 @@ public class GameSettings {
             this.lockout = false;
         }
 
+        if (nbt.contains("leaderboard")) {
+            this.leaderboard = nbt.getBoolean("leaderboard");
+        } else {
+            this.leaderboard = false;
+        }
+
         this.nbt = new CompoundTag();
         this.nbt.putString("winCondition", winCondition.id);
         this.nbt.putBoolean("invulnerable", invulnerable);
@@ -207,6 +214,7 @@ public class GameSettings {
         this.nbt.putString("teleporter", this.teleporter.getId());
         this.nbt.putInt("maxTime", this.maxTime);
         this.nbt.putBoolean("lockout", this.lockout);
+        this.nbt.putBoolean("leaderboard", this.leaderboard);
 
         // the default settings and already merged settings should still get the normal nbt for merging.
         if (DEFAULT_ID.equals(id) || CUSTOM_ID.equals(id)) {

@@ -9,6 +9,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.*;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceLocation;
@@ -20,7 +21,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
@@ -33,6 +33,7 @@ import java.util.function.Predicate;
 
 public class Util {
 
+    public static final Component REQUIRED_ITEM = new TranslatableComponent("bongo.tooltip.required").withStyle(ChatFormatting.GOLD);
     public static final Comparator<ResourceLocation> COMPARE_RESOURCE = Comparator.comparing(ResourceLocation::getNamespace).thenComparing(ResourceLocation::getPath);
 
     public static final List<DyeColor> PREFERRED_COLOR_ORDER = ImmutableList.of(
@@ -50,9 +51,9 @@ public class Util {
         } else {
             if (!COLOR_CACHE.containsKey(color)) {
                 int colorValue = color.getTextColor();
-                float[] hsb = java.awt.Color.RGBtoHSB((colorValue >> 16) & 0xFF, (colorValue >> 8) & 0xFF, colorValue & 0xFF, null);
+                float[] hsb = java.awt.Color.RGBtoHSB((colorValue >>> 16) & 0xFF, (colorValue >>> 8) & 0xFF, colorValue & 0xFF, null);
                 // Remove alpha bits as the value can not be serialized when using the alpha bits.
-                COLOR_CACHE.put(color, TextColor.fromRgb(0x00FFFFFF & java.awt.Color.HSBtoRGB(hsb[0], Math.min(1, hsb[1] + 0.1f), Math.min(1, hsb[2] + 0.1f))));
+                COLOR_CACHE.put(color, TextColor.fromRgb(0x00FFFFFF & java.awt.Color.HSBtoRGB(hsb[0], hsb[1] < 0.2 ? hsb[1] : 1, hsb[2])));
             }
             return Style.EMPTY.withColor(COLOR_CACHE.get(color));
         }
@@ -103,7 +104,7 @@ public class Util {
     }
 
     public static ResourceLocation getLocationFor(CompoundTag nbt, String id) {
-        if (!nbt.contains(id, Constants.NBT.TAG_STRING)) {
+        if (!nbt.contains(id, Tag.TAG_STRING)) {
             throw new IllegalStateException("Resource property for " + id + " missing or not a string.");
         }
         ResourceLocation rl = ResourceLocation.tryParse(nbt.getString(id));
