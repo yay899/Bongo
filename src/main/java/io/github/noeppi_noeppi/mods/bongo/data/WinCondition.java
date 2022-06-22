@@ -11,6 +11,7 @@ public enum WinCondition {
 
     ONE("bongo.one", one()),
     ALL("bongo.all", all()),
+    THIRTEEN("bongo.thirteen", thirteen()),
     ROWS("bongo.rows", when(VALUES_ROWS)),
     COLUMNS("bongo.columns", when(VALUES_COLS)),
     DIAGONALS("bongo.diagonals", when(VALUES_DIAGONAL)),
@@ -87,6 +88,17 @@ public enum WinCondition {
                     return false;
             }
             return true;
+        };
+    }
+
+    private static BiFunction<Bongo, Team, Boolean> thirteen() {
+        return (bongo, team) -> {
+            int count = 0;
+            for (int i = 0; i < 25; i++) {
+                if (team.completed(i))
+                    count++;
+            }
+            return count >= 13;
         };
     }
 }
